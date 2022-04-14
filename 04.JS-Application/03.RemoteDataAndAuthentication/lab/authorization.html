@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Demo</title>
+</head>
+
+<body>
+    <h2>Register</h2>
+    <form id="register">
+        <label>Email:<input type="text" name="email" /></label>
+        <label>Password:<input type="password" name="pass" /></label>
+        <label>Repeat Password:<input type="password" name="repass" /></label>
+        <input type="submit" value="Register" />
+    </form>
+    <h2>Login</h2>
+    <form id="login">
+        <label>Email:<input type="text" name="email" /></label>
+        <label>Password:<input type="password" name="pass" /></label>
+        <input type="submit" value="Login" />
+    </form>
+
+    <script>
+        const registerForm = document.getElementById('register');
+        const loginForm = document.getElementById('login');
+        registerForm.addEventListener('submit', onRegister);
+        loginForm.addEventListener('submit', onLogin);
+
+        async function onRegister(e) {
+            e.preventDefault();
+            const url = 'http://localhost:3030/users/register';  // v dokumentaciata triabva da se vidi url-a na koito registrirame ,
+            //                                                        kakto i s kakvi parametri da go podadem
+
+            const fromData = new FormData(registerForm);  //   izplolzva se kogato imame html <form>
+            const email = fromData.get('email').trim();
+            const password = fromData.get('pass').trim();
+            const repass = fromData.get('repass').trim();
+
+            try {
+                if (password !== repass){
+                    throw new Error(`Error: The password didn't match`);
+                };
+                const response = await fetch(url, {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.status != 200) {
+                    const error = await response.json();
+                    throw new Error(`Error: ${error.message}`);
+                };
+                
+                    const result = await response.json();
+
+                const token = result.accessToken;   // tova e edin ot hedarite koito vrushta result;
+                // console.log(result);
+                sessionStorage.setItem('token', token);  // zapazvame autorizirashtiat kluch v sessionStorage !!!!;
+
+                registerForm.reset();
+                // console.log([...fromData.entries()]);            // taka triabva da izkarame informaciata ot fromData;
+            } catch (err) {
+                alert(err.message);
+            };
+        };
+
+        async function onLogin(e) {
+            e.preventDefault();
+            const url = 'http://localhost:3030/users/login';  // v dokumentaciata triabva da se vidi url-a na koito se logvame ,
+            const fromData = new FormData(loginForm);                 // kakto i s kakvi parametri da go podadem
+
+            const email = fromData.get('email').trim();
+            const password = fromData.get('pass').trim();
+
+            try {
+                const response = await fetch(url, {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                if (response.status != 200) {
+                    const error = await response.json();
+                    throw new Error(`Error: ${error.message}`);
+                };
+
+                const result = await response.json();
+
+                const token = result.accessToken;   // tova e edin ot hedarite koito vrushta result;
+                sessionStorage.setItem('token', token);  // zapazvame autorizirashtiat kluch v sessionStorage !!!!;
+
+                loginForm.reset();
+            } catch (error) {
+                alert(error.message);
+            };
+        };
+    </script>
+
+</body>
+
+</html>

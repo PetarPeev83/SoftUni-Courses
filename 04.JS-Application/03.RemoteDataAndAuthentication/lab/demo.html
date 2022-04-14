@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO</title>
+</head>
+
+<body>
+
+    <form>
+        <label>Person:<input type="text" name="person" /></label>
+        <label>Phone:<input type="text" name="phone" /></label>
+        <input type="submit" value="Create record" />
+    </form>
+
+    <script>
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', onSubmit) // na form formulioar zaduljitelno eventListener triabla da e na "submit" , ne na 'click'
+        // const personInput = document.querySelector('[name = "person"]');
+        // const phoneInput = document.querySelector('[name = "phone"]');
+
+
+        async function onSubmit(event) {
+            event.preventDefault();
+            const data = new FormData(form)
+
+            // const person = personInput.value.trim();    // triabva da trimvame valutata vinagi kogato gi vzimame !!!
+            // const phone = phoneInput.value.trim();      // triabva da trimvame valutata vinagi kogato gi vzimame !!!
+
+            const person = data.get('person').trim();
+            const phone = data.get('phone').trim();
+
+            const record = { person, phone };
+
+            const result = await postData(record);  // POST zaiavka s vuvedenite danni;
+
+            form.reset();  //  ako polzvame  "new FormData" rimame opciq za reset na valueto koeto izchistva poletata; 
+
+            // personInput.value = "";
+            // phoneInput.value = "";
+        };
+
+        //                 prashtane na POST zaiavka s kod !!!!!
+        async function postData(data) {
+            const url = "http://localhost:3030/jsonstore/phonebook";
+            // const data = {
+            //     person: "Pesho",
+            //     phone: "+1-555-99321 424"
+            // };
+
+            const options = {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+
+            try {
+                const resp = await fetch(url, options);
+                if (resp.ok != true) {
+                    throw new Error(resp.statusText);
+                }
+                const result = await resp.json();
+
+                return result;
+            } catch (error) {
+
+            };
+        };
+
+        // GEt zaiavka
+        async function getData() {
+            const url = "http://localhost:3030/jsonstore/phonebook";
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            return data;
+        };
+        async function getDataById(id) {
+            const url = "http://localhost:3030/jsonstore/phonebook" + id;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            return data;
+        };
+
+        //         PUT zaiavka
+        async function updateData(id, data) {
+            const url = "http://localhost:3030/jsonstore/phonebook" + id;
+
+            const options = {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+            const response = await fetch(url, options);
+            const result = await response.json();
+
+            return result;
+        };
+
+        //     DELETE zaiavka
+        async function deleteData(id) {
+            const url = "http://localhost:3030/jsonstore/phonebook" + id;
+
+            const options = {
+                method: 'delete',
+            };
+            const response = await fetch(url, options);
+            const result = await response.json();
+
+            return result;
+        };
+
+    </script>
+</body>
+
+</html>

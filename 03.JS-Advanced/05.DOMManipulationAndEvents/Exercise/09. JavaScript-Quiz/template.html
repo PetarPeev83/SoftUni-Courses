@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="template.css">
+    <title>JAVASCRIPT QUIZZ</title>
+    <script src="./solution.js"></script>
+</head>
+
+<body>
+    <div id="quizzie">
+        <h1>JavaScript Quiz</h1>
+
+        <section>
+            <ul class="quiz-step step1 current">
+                <li class="question">
+                    <div class="question-wrap">
+                        <h2>Въпрос #1: Ако ти си бягане в състезание и подминаваш човека на второ място, на какво място
+                            си?</h2>
+                    </div>
+                </li>
+                <li class="quiz-answer low-value" data-quizIndex="2">
+                    <div class="answer-wrap">
+                        <p class="answer-text">Първо място</p>
+                    </div>
+                </li>
+                <li class="quiz-answer high-value" data-quizIndex="4">
+                    <div class="answer-wrap">
+                        <p class="answer-text">Второ място</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="hidden">
+            <ul class="quiz-step step1 current">
+                <li class="question">
+                    <div class="question-wrap">
+                        <h2>Въпрос #2: Кои три числа, нито едно от които не е нула, дават един и същ резултат,
+                            независимо дали са добавени или умножени? </h2>
+                    </div>
+                </li>
+                <li class="quiz-answer low-value" data-quizIndex="2">
+                    <div class="answer-wrap">
+                        <p class="answer-text">Едно, две и три</p>
+                    </div>
+                </li>
+                <li class="quiz-answer high-value" data-quizIndex="4">
+                    <div class="answer-wrap">
+                        <p class="answer-text">Три, седем и девет</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="hidden">
+            <ul class="quiz-step step1 current">
+                <li class="question">
+                    <div class="question-wrap">
+                        <h2>Въпрос #3: Мери има четири дъщери и всяка от дъщерите й има брат. Колко деца има Мери?</h2>
+                    </div>
+                </li>
+                <li class="quiz-answer low-value" data-quizIndex="2">
+                    <div class="answer-wrap">
+                        <p class="answer-text">пет</p>
+                    </div>
+                </li>
+                <li class="quiz-answer high-value" data-quizIndex="4">
+                    <div class="answer-wrap">
+                        <p class="answer-text">осем</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="hidden">
+            <ul class="quiz-step step1 current">
+                <li class="question">
+                    <div class="question-wrap">
+                        <h2>Въпрос #4: Малко момиче отива в магазина и купува десетина яйца. Докато тя се прибира вкъщи,
+                            всички с изключение на три се разбиват. Колко яйца са останали неразбити?</h2>
+                    </div>
+                </li>
+                <li class="quiz-answer low-value" data-quizIndex="2">
+                    <div class="answer-wrap">
+                        <p class="answer-text">три</p>
+                    </div>
+                </li>
+                <li class="quiz-answer high-value" data-quizIndex="4">
+                    <div class="answer-wrap">
+                        <p class="answer-text">седем</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="hidden">
+            <ul class="quiz-step step1 current">
+                <li class="question">
+                    <div class="question-wrap">
+                        <h2>Въпрос #5: Дядото е на 56 години, а внукът – на 14 г. След колко години дядото ще стане два
+                            пъти по-стар?</h2>
+                    </div>
+                </li>
+                <li class="quiz-answer low-value" data-quizIndex="2">
+                    <div class="answer-wrap">
+                        <p class="answer-text">след 18 години</p>
+                    </div>
+                </li>
+                <li class="quiz-answer high-value" data-quizIndex="4">
+                    <div class="answer-wrap">
+                        <p class="answer-text">след 28 години</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <ul id="results">
+            <li class="results-inner">
+                <h1></h1>
+            </li>
+        </ul>
+    </div>
+    </main>
+    </div>
+    <script>
+        solve();
+    </script>
+</body>
+
+</html>
