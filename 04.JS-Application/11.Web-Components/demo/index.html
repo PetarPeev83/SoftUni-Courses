@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components Demo</title>
+</head>
+
+<body>
+
+    <template id="my-template">
+        <article>
+            <h2>
+                <slot name="title">Title</slot>
+            </h2>
+            <div>
+                <p>Article content</p>
+            </div>
+        </article>
+    </template>
+
+    <h1>Components Demo</h1>
+    <p>Standard paragraph</p>
+    <my-element>
+        Hello
+        <span slot="title">Title from content</span>
+    </my-element>
+    <button id="btn">Click Here</button>
+
+    <main></main>
+
+    <script type="module">
+        const main = document.querySelector('main');
+        const temp = document.getElementById('my-template');
+
+        document.getElementById('btn').addEventListener('click', () => {
+            console.log(temp.content);
+
+            main.appendChild(temp.content.cloneNode(true)); // клонираме темплейта иначе съдържанието му ще изчезне при първото изпълнение и 
+            //                                                 няма да може да го използваме отново !!!
+        });
+
+        class MyComponent extends HTMLElement {
+            constructor() {
+                super();
+
+                this.attachShadow({ mode: 'open' });
+                // this.shadowRoot.appendChild(temp.content.cloneNode(true));
+            }
+
+            connectedCallback() {
+                this.shadowRoot.appendChild(temp.content.cloneNode(true));
+                console.log('connected'); //вградената функция се извиква  всеки път като закачаме елемент към ДОМ дървото;
+            }
+            disconnectedCallback() {
+                console.log('disconnected'); //вградената функция се извиква  всеки път като откачаме елемент от ДОМ дървото;
+            }
+
+
+            attributeChangedCallback(name, oldValue, newValue) { // вградената функция се извиква  всеки път като променим елемента (name);
+                console.log(`${name}'s value has been changed from ${oldValue} to ${newValue}`);
+            }
+            static get observedAttributes() { // taka moje da slushame za promiana na niakolko elementa;
+                return ['title', 'foo', 'bar'];
+            }
+        };
+
+        window.customElements.define('my-element', MyComponent);
+
+    </script>
+
+</body>
+
+</html>
